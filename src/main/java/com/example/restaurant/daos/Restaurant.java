@@ -9,7 +9,8 @@ import javax.persistence.*;
 @Table(name = "TEST")
 @Getter
 @Setter
-public class Restaurant {
+public class Restaurant
+{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
