@@ -8,7 +8,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/restaurants")
-public class MainController {
+public class RestaurantController {
     @Autowired
     private RestaurantService restaurantService;
 

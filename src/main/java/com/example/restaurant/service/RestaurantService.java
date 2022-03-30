@@ -16,6 +16,15 @@ public Iterable<Restaurant> getAllRestaurants() throws Exception{
 return restaurantRepository.findAll();
 }
 
+public Optional<Restaurant> getRestaurantById(Long id) throws Exception{
+    Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(id);
+    if (!optionalRestaurant.isPresent()){
+        return null;
+    }
+
+    return optionalRestaurant;
+}
+
 public Restaurant addRestaurant(Restaurant restaurant) throws Exception{
     restaurantRepository.save(restaurant);
     return restaurant;
