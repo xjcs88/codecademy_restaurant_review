@@ -24,7 +24,7 @@ public class User {
     private String state;
 
     @Column(name = "ZIPCODE")
-    private String zipcode;
+    private String zipCode;
 
     @Column(name = "PEANUT")
     private Boolean carePeanut;

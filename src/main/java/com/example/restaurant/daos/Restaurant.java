@@ -18,8 +18,14 @@ public class Restaurant {
     @Column(name = "NAME")
     private String name;
 
-    @Column(name = "ADDRESS")
-    private String address;
+    @Column(name = "STATE")
+    private String state;
+
+    @Column(name = "ZIPCODE")
+    private String zipCode;
+
+    @Column(name = "CITY")
+    private String city;
 
     @Column(name = "PHONE")
     private String phone;

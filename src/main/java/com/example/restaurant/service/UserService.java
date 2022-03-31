@@ -33,7 +33,7 @@ public class UserService {
 
     public Optional<User> updateUserByName(User user) throws Exception{
         Optional<User> optionalUser = userRepository.findByName(user.getName());
-        if(!optionalUser.isPresent()){
+        if(optionalUser == null){
             return null;
         }
         User userToUpdate = optionalUser.get();
@@ -53,8 +53,8 @@ public class UserService {
             userToUpdate.setState(user.getState());
         }
 
-        if(user.getZipcode() != null){
-            userToUpdate.setZipcode(user.getZipcode());
+        if(user.getZipCode() != null){
+            userToUpdate.setZipCode(user.getZipCode());
         }
 
         if(user.getCareDairy() != null){

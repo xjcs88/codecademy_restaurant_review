@@ -3,7 +3,10 @@ package com.example.restaurant.service;
 import com.example.restaurant.daos.Restaurant;
 import com.example.restaurant.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -18,16 +21,21 @@ return restaurantRepository.findAll();
 
 public Optional<Restaurant> getRestaurantById(Long id) throws Exception{
     Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(id);
-    if (!optionalRestaurant.isPresent()){
+    if (optionalRestaurant == null){
         return null;
     }
 
     return optionalRestaurant;
 }
 
+@ResponseStatus(HttpStatus.CREATED)
 public Restaurant addRestaurant(Restaurant restaurant) throws Exception{
-    restaurantRepository.save(restaurant);
-    return restaurant;
+    Optional<Restaurant> optionalRestaurant = restaurantRepository.findRestaurantsByNameAndZipCode(restaurant.getName(), restaurant.getZipCode());
+    if (optionalRestaurant == null){
+        restaurantRepository.save(restaurant);
+        return restaurant;
+    }
+    throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 }
 
 public Iterable<Restaurant> deleteAllRestaurants() throws Exception{
@@ -38,13 +46,21 @@ public Iterable<Restaurant> deleteAllRestaurants() throws Exception{
 
     public Optional<Restaurant> updateRestaurant(Long id, Restaurant restaurant) throws Exception{
         Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(id);
-        if (!optionalRestaurant.isPresent()){
+        if (optionalRestaurant == null){
             return null;
         }
 
         Restaurant restaurantToUpdate = optionalRestaurant.get();
-        if(restaurant.getAddress() != null){
-            restaurantToUpdate.setAddress(restaurant.getAddress());
+        if(restaurant.getCity() != null){
+            restaurantToUpdate.setCity(restaurant.getCity());
+        }
+
+        if(restaurant.getState() != null){
+            restaurantToUpdate.setState(restaurant.getState());
+        }
+
+        if(restaurant.getZipCode() != null){
+            restaurantToUpdate.setZipCode(restaurant.getZipCode());
         }
 
         if(restaurant.getName() != null){

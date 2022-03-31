@@ -20,6 +20,9 @@ public class Review {
     @Column(name = "ID")
     private Long id;
 
+    @Column(name = "RESTAURANT_ID")
+    private Long restaurantId;
+
     @Column(name = "PEANUT", nullable = true)
     private Double peanut;
 
