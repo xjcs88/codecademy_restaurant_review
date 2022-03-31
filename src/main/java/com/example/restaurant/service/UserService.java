@@ -33,7 +33,7 @@ public class UserService {
 
     public Optional<User> updateUserByName(User user) throws Exception{
         Optional<User> optionalUser = userRepository.findByName(user.getName());
-        if(optionalUser == null){
+        if(optionalUser.isEmpty()){
             return null;
         }
         User userToUpdate = optionalUser.get();

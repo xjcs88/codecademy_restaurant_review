@@ -27,7 +27,7 @@ public class ReviewService {
     public Review addReview(Review review) throws Exception{
         Optional<User> optionalUser = userService.getUserByName(review.getName());
         Optional<Restaurant> optionalRestaurant = restaurantService.getRestaurantById(review.getRestaurantId());
-        if (optionalRestaurant == null|| optionalUser == null){
+        if (optionalRestaurant.isEmpty() || optionalUser.isEmpty()){
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY);
         }
         reviewRepository.save(review);
@@ -57,7 +57,7 @@ public class ReviewService {
     @ResponseStatus(HttpStatus.CREATED)
     public Optional<Review> adminUpdateReviewByStatus(Review review) throws Exception{
         Optional<Review> optionalReview = reviewRepository.findById(review.getId());
-        if(optionalReview == null){
+        if(optionalReview.isEmpty()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
         Review reviewToUpdate = optionalReview.get();

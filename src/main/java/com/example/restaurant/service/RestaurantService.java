@@ -21,7 +21,7 @@ return restaurantRepository.findAll();
 
 public Optional<Restaurant> getRestaurantById(Long id) throws Exception{
     Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(id);
-    if (optionalRestaurant == null){
+    if (optionalRestaurant.isEmpty()){
         return null;
     }
 
@@ -31,7 +31,7 @@ public Optional<Restaurant> getRestaurantById(Long id) throws Exception{
 @ResponseStatus(HttpStatus.CREATED)
 public Restaurant addRestaurant(Restaurant restaurant) throws Exception{
     Optional<Restaurant> optionalRestaurant = restaurantRepository.findRestaurantsByNameAndZipCode(restaurant.getName(), restaurant.getZipCode());
-    if (optionalRestaurant == null){
+    if (optionalRestaurant.isEmpty()){
         restaurantRepository.save(restaurant);
         return restaurant;
     }
@@ -46,7 +46,7 @@ public Iterable<Restaurant> deleteAllRestaurants() throws Exception{
 
     public Optional<Restaurant> updateRestaurant(Long id, Restaurant restaurant) throws Exception{
         Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(id);
-        if (optionalRestaurant == null){
+        if (optionalRestaurant.isEmpty()){
             return null;
         }
 
