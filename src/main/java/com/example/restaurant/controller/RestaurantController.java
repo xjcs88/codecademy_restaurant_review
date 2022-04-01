@@ -26,6 +26,16 @@ public class RestaurantController {
         return restaurants;
     }
 
+    @GetMapping("/{id}")
+    public Optional<Restaurant> getRestaurantById(@PathVariable Long id) throws Exception {
+        return restaurantService.getRestaurantById(id);
+    }
+
+    @GetMapping("/find")
+    public Iterable<Restaurant> getRestaurantsByZipCodeAndAllergy(@RequestParam String zipCode, @RequestParam String allergy) throws Exception{
+        return restaurantService.getRestaurantsByZipCodeAndAllergy(zipCode, allergy);
+    }
+
     @PostMapping("/add")
     public Restaurant addRestaurant(@RequestBody Restaurant restaurant) throws Exception{
         return restaurantService.addRestaurant(restaurant);
