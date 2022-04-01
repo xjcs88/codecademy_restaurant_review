@@ -25,7 +25,7 @@ public class UserService {
     @ResponseStatus(HttpStatus.CREATED)
     public User addUser(User user) throws Exception{
         if(this.isExistedByName(user.getName())){
-            throw new ResponseStatusException(HttpStatus.CONFLICT);
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "User name exists!");
         }
         userRepository.save(user);
         return user;
@@ -34,7 +34,7 @@ public class UserService {
     public Optional<User> updateUserByName(User user) throws Exception{
         Optional<User> optionalUser = userRepository.findByName(user.getName());
         if(optionalUser.isEmpty()){
-            return null;
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!");
         }
         User userToUpdate = optionalUser.get();
         if(user.getName() != null){
@@ -74,8 +74,8 @@ public class UserService {
 
     public Optional<User> getUserByName(String name) throws Exception{
         Optional<User> optionalUser = userRepository.findByName(name);
-        if(!optionalUser.isPresent()){
-            return null;
+        if(optionalUser.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!");
         }
         return optionalUser;
     }
@@ -85,11 +85,6 @@ public class UserService {
         userRepository.deleteAll();
         return users;
     }
-
-//    public Boolean isExistByName(Review review) throws Exception{
-//        Optional<User> optionalUser = userRepository.findByName(review.getName());
-//        return optionalUser.isPresent();
-//    }
 
     public Boolean isExistedByName(String name) throws Exception{
         Optional<User> optionalUser = userRepository.findByName(name);

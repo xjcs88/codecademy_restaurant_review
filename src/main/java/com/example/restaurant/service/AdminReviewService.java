@@ -25,7 +25,7 @@ public class AdminReviewService {
                 reviewStatus = Status.valueOf(status);
             }
             catch (IllegalArgumentException exception){
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Status not found!");
             }
             return reviewRepository.findAllByStatus(reviewStatus);
         }
@@ -37,7 +37,7 @@ public class AdminReviewService {
     public Optional<Review> updatePendingReview(Long id, AdminReview adminReview) throws Exception{
             Optional<Review> optionalReview = reviewRepository.findById(id);
             if(optionalReview.isEmpty()){
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Review not found!");
             }
             Review reviewToUpdate = optionalReview.get();
             if (adminReview.isAcceptReview()) {

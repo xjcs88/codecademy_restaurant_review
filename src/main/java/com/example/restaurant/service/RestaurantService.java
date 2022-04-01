@@ -24,7 +24,7 @@ return restaurantRepository.findAll();
 public Optional<Restaurant> getRestaurantById(Long id) throws Exception{
     Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(id);
     if (optionalRestaurant.isEmpty()){
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Restaurant not found!");
     }
 
     return optionalRestaurant;
@@ -32,7 +32,7 @@ public Optional<Restaurant> getRestaurantById(Long id) throws Exception{
 
 public Iterable<Restaurant> getRestaurantsByZipCodeAndAllergy(String zipCode, String allergy) throws Exception {
     if(!zipCodePattern.matcher(zipCode).matches()){
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Zipcode should be 4 digits!");
     }
     Iterable<Restaurant> restaurants;
 
@@ -46,7 +46,7 @@ public Iterable<Restaurant> getRestaurantsByZipCodeAndAllergy(String zipCode, St
         restaurants = restaurantRepository.findRestaurantsByZipCodeAndDairyNotNullOrderByDairy(zipCode);
     }
     else{
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No valid scores found!");
     }
     return restaurants;
 }
@@ -57,7 +57,7 @@ public Restaurant addRestaurant(Restaurant restaurant) throws Exception{
         restaurantRepository.save(restaurant);
         return restaurant;
     }
-    throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This restaurant already exists!");
 }
 
 public Iterable<Restaurant> deleteAllRestaurants() throws Exception{
@@ -69,7 +69,7 @@ public Iterable<Restaurant> deleteAllRestaurants() throws Exception{
 public Optional<Restaurant> updateRestaurant(Long id, Restaurant restaurant) throws Exception{
     Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(id);
     if (optionalRestaurant.isEmpty()){
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "restaurant not found!");
     }
 
     Restaurant restaurantToUpdate = optionalRestaurant.get();

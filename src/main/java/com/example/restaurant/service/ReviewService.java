@@ -28,7 +28,7 @@ public class ReviewService {
         Optional<User> optionalUser = userService.getUserByName(review.getName());
         Optional<Restaurant> optionalRestaurant = restaurantService.getRestaurantById(review.getRestaurantId());
         if (optionalRestaurant.isEmpty() || optionalUser.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "A restaurant with the same name and zipcode exists!");
         }
         reviewRepository.save(review);
         return review;
@@ -55,7 +55,7 @@ public class ReviewService {
             findStatus = Status.valueOf(status);
         }
         catch (IllegalArgumentException exception) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Status not found!");
         }
         List<Review> restaurants = reviewRepository.findReviewsByRestaurantIdAndStatus(id, findStatus);
         return restaurants;
@@ -65,7 +65,7 @@ public class ReviewService {
     public Optional<Review> adminUpdateReviewByStatus(Review review) throws Exception{
         Optional<Review> optionalReview = reviewRepository.findById(review.getId());
         if(optionalReview.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Review not found!");
         }
         Review reviewToUpdate = optionalReview.get();
         reviewToUpdate.setStatus(review.getStatus());
