@@ -24,7 +24,7 @@ public class UserService {
 
     @ResponseStatus(HttpStatus.CREATED)
     public User addUser(User user) throws Exception{
-        if(this.isDuplicateByName(user.getName())){
+        if(this.isExistedByName(user.getName())){
             throw new ResponseStatusException(HttpStatus.CONFLICT);
         }
         userRepository.save(user);
@@ -91,7 +91,7 @@ public class UserService {
 //        return optionalUser.isPresent();
 //    }
 
-    public Boolean isDuplicateByName(String name) throws Exception{
+    public Boolean isExistedByName(String name) throws Exception{
         Optional<User> optionalUser = userRepository.findByName(name);
         return optionalUser.isPresent();
     }

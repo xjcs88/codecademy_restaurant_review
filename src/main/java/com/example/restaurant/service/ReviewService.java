@@ -49,8 +49,15 @@ public class ReviewService {
 //        return statusReviews;
 //    }
 
-    public List<Review> getAllReviewsByRestaurantIdAndStatus(Long id, Status status) throws Exception{
-        List<Review> restaurants = reviewRepository.findReviewsByRestaurantIdAndStatus(id, status);
+    public List<Review> getAllReviewsByRestaurantIdAndStatus(Long id, String status) throws Exception{
+        Status findStatus = Status.PENDING;
+        try{
+            findStatus = Status.valueOf(status);
+        }
+        catch (IllegalArgumentException exception) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        List<Review> restaurants = reviewRepository.findReviewsByRestaurantIdAndStatus(id, findStatus);
         return restaurants;
     }
 

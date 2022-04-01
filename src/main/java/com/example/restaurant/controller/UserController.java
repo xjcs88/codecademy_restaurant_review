@@ -35,8 +35,8 @@ public class UserController {
     }
 
     @GetMapping("/{name}/exist")
-    public Boolean isExistByName(@RequestBody Review review) throws Exception{
-        return userService.isDuplicateByName(review.getName());
+    public Boolean isExistedByName(@RequestBody Review review) throws Exception{
+        return userService.isExistedByName(review.getName());
     }
 
     @DeleteMapping("/all")

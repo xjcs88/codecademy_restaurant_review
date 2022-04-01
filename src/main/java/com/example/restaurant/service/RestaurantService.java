@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.Collections;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -35,7 +34,7 @@ public Iterable<Restaurant> getRestaurantsByZipCodeAndAllergy(String zipCode, St
     if(!zipCodePattern.matcher(zipCode).matches()){
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
     }
-    Iterable<Restaurant> restaurants = Collections.EMPTY_LIST;
+    Iterable<Restaurant> restaurants;
 
     if (allergy.equalsIgnoreCase("peanut")) {
         restaurants = restaurantRepository.findRestaurantsByZipCodeAndPeanutNotNullOrderByPeanut(zipCode);
@@ -51,7 +50,7 @@ public Iterable<Restaurant> getRestaurantsByZipCodeAndAllergy(String zipCode, St
     }
     return restaurants;
 }
-@ResponseStatus(HttpStatus.CREATED)
+
 public Restaurant addRestaurant(Restaurant restaurant) throws Exception{
     Optional<Restaurant> optionalRestaurant = restaurantRepository.findRestaurantsByNameAndZipCode(restaurant.getName(), restaurant.getZipCode());
     if (optionalRestaurant.isEmpty()){

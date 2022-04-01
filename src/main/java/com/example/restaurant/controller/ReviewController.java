@@ -14,25 +14,16 @@ public class ReviewController {
     @Autowired
     ReviewService reviewService;
 
+
     @PostMapping("/add")
     public Review addReview(@RequestBody Review review) throws Exception{
         return reviewService.addReview(review);
     }
 
-//    @GetMapping("/allreviews")
-//    public Iterable<Review> getAllReviews() throws Exception{
-//        return reviewService.getAllReviews();
-//    }
-
     @GetMapping("/all")
     public Iterable<Review> getAllReviewsByStatus(@RequestParam(required = false) Status status) throws Exception{
         return reviewService.getAllReviewsByStatus(status);
     }
-
-//    @GetMapping("/all")
-//    public Iterable<Review> getAllReviewsByRestaurantId(@PathVariable Long id) throws Exception{
-//        return reviewService.getReviewsByRestaurantId(id);
-//    }
 
     @PutMapping("/{id}/update")
     public Optional<Review> adminUpdateReviewById(@RequestBody Review review) throws Exception{
@@ -40,7 +31,7 @@ public class ReviewController {
     }
 
     @GetMapping("/{id}/all")
-    public Iterable<Review> getAllReviewsByRestaurantIdAndStatus(@RequestBody Review review) throws Exception{
-        return reviewService.getAllReviewsByRestaurantIdAndStatus(review.getRestaurantId(), Status.ACCEPTED);
+    public Iterable<Review> getAllReviewsByRestaurantIdAndStatus(@PathVariable Long id, String status) throws Exception{
+        return reviewService.getAllReviewsByRestaurantIdAndStatus(id, status);
     }
 }

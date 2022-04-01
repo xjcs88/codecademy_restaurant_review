@@ -12,18 +12,10 @@ public class RestaurantController {
     @Autowired
     private RestaurantService restaurantService;
 
-//    @Autowired
-//    private final RestaurantRepository restaurantRepository;
-//
-//    public MainController(RestaurantRepository restaurantRepository) {
-//        this.restaurantRepository = restaurantRepository;
-//        //this.restaurantService = restaurantService;
-//    }
 
     @GetMapping("/all")
     public Iterable<Restaurant> getAllRestaurants() throws Exception {
-        Iterable<Restaurant> restaurants = restaurantService.getAllRestaurants();
-        return restaurants;
+        return restaurantService.getAllRestaurants();
     }
 
     @GetMapping("/{id}")
@@ -43,8 +35,7 @@ public class RestaurantController {
 
     @DeleteMapping("all")
     public Iterable<Restaurant> deleteAllRestaurants() throws Exception{
-        Iterable<Restaurant> restaurants = restaurantService.deleteAllRestaurants();
-        return restaurants;
+        return restaurantService.deleteAllRestaurants();
     }
 
     @PutMapping("/{id}")
