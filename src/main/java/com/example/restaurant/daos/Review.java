@@ -23,13 +23,13 @@ public class Review {
     private Long restaurantId;
 
     @Column(name = "PEANUT", nullable = true)
-    private Double peanut;
+    private Integer peanut;
 
     @Column(name = "EGG", nullable = true)
-    private Double egg;
+    private Integer egg;
 
     @Column(name = "DAIRY", nullable = true)
-    private Double dairy;
+    private Integer dairy;
 
     @Column(name = "COMMENTARY", nullable = true)
     private String commentary;
