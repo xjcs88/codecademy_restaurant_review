@@ -15,23 +15,23 @@ public class ReviewController {
     ReviewService reviewService;
 
 
-    @PostMapping("/add")
-    public Review addReview(@RequestBody Review review) throws Exception{
-        return reviewService.addReview(review);
-    }
-
-    @GetMapping("/all")
-    public Iterable<Review> getAllReviewsByStatus(@RequestParam(required = false) Status status) throws Exception{
-        return reviewService.getAllReviewsByStatus(status);
-    }
-
-    @PutMapping("/{id}/update")
-    public Optional<Review> adminUpdateReviewById(@RequestBody Review review) throws Exception{
-        return reviewService.adminUpdateReviewByStatus(review);
-    }
-
-    @GetMapping("/{id}/all")
-    public Iterable<Review> getAllReviewsByRestaurantIdAndStatus(@PathVariable Long id, String status) throws Exception{
-        return reviewService.getAllReviewsByRestaurantIdAndStatus(id, status);
-    }
+//    @PostMapping("/add")
+//    public Review addReview(@RequestBody Review review) throws Exception{
+//        return reviewService.addReview(review);
+//    }
+//
+//    @GetMapping("/all")
+//    public Iterable<Review> getAllReviewsByStatus(@RequestParam(required = false) Status status) throws Exception{
+//        return reviewService.getAllReviewsByStatus(status);
+//    }
+//
+//    @PutMapping("/{id}/update")
+//    public Optional<Review> adminUpdateReviewById(@RequestBody Review review) throws Exception{
+//        return reviewService.adminUpdateReviewByStatus(review);
+//    }
+//
+//    @GetMapping("/{id}/all")
+//    public Iterable<Review> getAllReviewsByRestaurantIdAndStatus(@PathVariable Long id, String status) throws Exception{
+//        return reviewService.getAllReviewsByRestaurantIdAndStatus(id, status);
+//    }
 }
