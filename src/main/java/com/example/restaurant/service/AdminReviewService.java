@@ -11,9 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.server.ResponseStatusException;
-import java.math.BigDecimal;
-
-import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +22,7 @@ public class AdminReviewService {
     private ReviewRepository reviewRepository;
     @Autowired
     private RestaurantRepository restaurantRepository;
+    private DecimalFormat decimalFormat = new DecimalFormat("0.00");
 
 
     public Iterable<Review> getAllReviewsByStatus(String status) throws Exception{
@@ -70,61 +69,43 @@ public class AdminReviewService {
 
         List<Review> reviews = reviewRepository.findReviewsByRestaurantIdAndStatus(restaurantId, Status.ACCEPTED);
         if (!reviews.isEmpty()) {
-            BigDecimal peanutScore = BigDecimal.valueOf(0);
-            Integer peanutTotalScore = 0;
-            Integer peanutTotalReviews = 0;
-            BigDecimal eggScore = BigDecimal.valueOf(0);
-            Integer eggTotalScore = 0;
-            Integer eggTotalReviews = 0;
-            BigDecimal dairyScore = BigDecimal.valueOf(0);
-            Integer dairyTotalScore = 0;
-            Integer dairyTotalReviews = 0;
-            for (int i = 0; i < reviews.size(); i++) {
-                if (reviews.get(i).getPeanut() != null) {
-                    if(peanutScore == null){
-                        peanutScore = BigDecimal.valueOf(0);
-                    }
-                    peanutTotalScore += reviews.get(i).getPeanut();
-                    peanutTotalReviews += 1;
+            int peanutSum = 0;
+            int peanutCount = 0;
+            int eggSum = 0;
+            int eggCount = 0;
+            int dairySum = 0;
+            int dairyCount = 0;
+
+            for (Review r : reviews) {
+                if (r.getPeanut() != null) {
+                    peanutSum += r.getPeanut();
+                    peanutCount += 1;
                 }
 
-                if (reviews.get(i).getEgg() != null) {
-                    if(eggScore == null){
-                        eggScore = BigDecimal.valueOf(0);
-                    }
-                    eggTotalScore += reviews.get(i).getEgg();
-                    eggTotalReviews += 1;
+                if (r.getEgg() != null) {
+                    eggSum += r.getEgg();
+                    eggCount += 1;
                 }
 
-                if (reviews.get(i).getPeanut() != null) {
-                    if(dairyScore == null){
-                        dairyScore = BigDecimal.valueOf(0);
-                    }
-                    dairyTotalScore += reviews.get(i).getDairy();
-                    dairyTotalReviews += 1;
-                }
-                if (peanutTotalReviews > 0) {
-                    peanutScore = new BigDecimal(peanutTotalScore).divide(new BigDecimal(peanutTotalReviews), 2, RoundingMode.HALF_UP);
-                }
-
-                if (eggTotalReviews > 0) {
-                    eggScore = new BigDecimal(eggTotalScore).divide(new BigDecimal(eggTotalReviews), 2, RoundingMode.HALF_UP);
-                }
-
-                if (dairyTotalReviews > 0) {
-                    dairyScore = new BigDecimal(dairyTotalScore).divide(new BigDecimal(dairyTotalReviews), 2, RoundingMode.HALF_UP);
+                if (r.getDairy() != null) {
+                    dairySum += r.getDairy();
+                    dairyCount += 1;
                 }
             }
-            if (peanutScore != null) {
-                restaurantToUpdate.setPeanut(peanutScore.doubleValue());
+
+            if (peanutCount > 0) {
+                Double peanutScore = (double) peanutSum / peanutCount;
+                restaurantToUpdate.setPeanut(Double.valueOf(decimalFormat.format(peanutScore)));
             }
 
-            if (eggScore != null) {
-                restaurantToUpdate.setEgg(eggScore.doubleValue());
+            if (eggCount > 0) {
+                Double eggScore = (double) eggSum / eggCount;
+                restaurantToUpdate.setEgg(Double.valueOf(decimalFormat.format(eggScore)));
             }
 
-            if (dairyScore != null) {
-                restaurantToUpdate.setDairy(dairyScore.doubleValue());
+            if (dairyCount > 0) {
+                Double dairyScore = (double) dairySum / dairyCount;
+                restaurantToUpdate.setDairy(Double.valueOf(decimalFormat.format(dairyScore)));
             }
         }
         return restaurantRepository.save(restaurantToUpdate);
