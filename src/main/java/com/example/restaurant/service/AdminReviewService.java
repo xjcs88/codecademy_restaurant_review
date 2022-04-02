@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -49,5 +50,17 @@ public class AdminReviewService {
             reviewRepository.save(reviewToUpdate);
             return optionalReview;
 
+    }
+
+    public Double updateRestaurantScoresByRestaurantId(Long restaurantId) throws Exception{
+        List<Review> reviews = reviewRepository.findReviewsByRestaurantIdAndStatus(restaurantId, Status.ACCEPTED);
+        if(!reviews.isEmpty()){
+            Double peanutScore = null;
+            Double eggScore = null;
+            Double dairyScore = null;
+            for(int i = 0; i < reviews.size(); i++){
+                if(reviews.get(i).getPeanut().)
+            }
+        }
     }
 }

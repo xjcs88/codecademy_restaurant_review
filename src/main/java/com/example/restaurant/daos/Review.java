@@ -11,7 +11,6 @@ import javax.persistence.*;
 @Setter
 public class Review {
 
-
     @Column(name = "NAME")
     private String name;
 
