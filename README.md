@@ -1,6 +1,7 @@
 # codecademy_restaurant_review
 This is a project task from codecademy.
 
+
 User controller allows to find all users, create users, update user name, find user by user's name(unique);
 
 Restaurant controller allows to find all restaurants, create resaurant, find restaurant by its restaurant id, find restaurants by zipcode and allergy;
