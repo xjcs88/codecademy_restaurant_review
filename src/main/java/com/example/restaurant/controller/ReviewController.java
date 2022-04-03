@@ -15,11 +15,13 @@ public class ReviewController {
     ReviewService reviewService;
 
 
-//    @PostMapping("/add")
-//    public Review addReview(@RequestBody Review review) throws Exception{
-//        return reviewService.addReview(review);
-//    }
-//
+    @PostMapping()
+    public Review addReview(@RequestBody Review review) throws Exception{
+        return reviewService.addReview(review);
+    }
+
+//    Below functions are moved to AdminReviewController.
+
 //    @GetMapping("/all")
 //    public Iterable<Review> getAllReviewsByStatus(@RequestParam(required = false) Status status) throws Exception{
 //        return reviewService.getAllReviewsByStatus(status);

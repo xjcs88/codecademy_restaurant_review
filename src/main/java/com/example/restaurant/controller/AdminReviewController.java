@@ -15,7 +15,7 @@ public class AdminReviewController {
     @Autowired
     private AdminReviewService adminReviewService;
 
-    @GetMapping("/all")
+    @GetMapping("/reviews")
     public Iterable<Review> getAllReviewsByStatus(@RequestParam(required = false) String status) throws Exception{
         return adminReviewService.getAllReviewsByStatus(status);
     }

@@ -14,12 +14,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/all")
+    @GetMapping()
     public Iterable<User> getAllUsers() throws Exception{
         return userService.getAllUsers();
     }
 
-    @PostMapping("/add")
+    @PostMapping()
     public User addUser(@RequestBody User user) throws Exception{
         return userService.addUser(user);
     }
@@ -39,8 +39,9 @@ public class UserController {
         return userService.isExistedByName(review.getName());
     }
 
-    @DeleteMapping("/all")
-    public Iterable<User> deleteAll() throws Exception{
-        return userService.deleteAll();
-    }
+//    //For test purpose
+//    @DeleteMapping("/all")
+//    public Iterable<User> deleteAll() throws Exception{
+//        return userService.deleteAll();
+//    }
 }
