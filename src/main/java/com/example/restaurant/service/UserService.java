@@ -80,11 +80,15 @@ public class UserService {
         return optionalUser;
     }
 
+    /* For test purpose
+
     public Iterable<User> deleteAll() throws Exception{
         Iterable<User> users = userRepository.findAll();
         userRepository.deleteAll();
         return users;
     }
+
+     */
 
     public Boolean isExistedByName(String name) throws Exception{
         Optional<User> optionalUser = userRepository.findByName(name);

@@ -16,12 +16,12 @@ public class AdminReviewController {
     private AdminReviewService adminReviewService;
 
     @GetMapping("/reviews")
-    public Iterable<Review> getAllReviewsByStatus(@RequestParam(required = false) String status) throws Exception{
+    public Iterable<Review> getAllReviewsByStatus(@RequestParam(required = false) String status) throws Exception {
         return adminReviewService.getAllReviewsByStatus(status);
     }
 
     @PutMapping("/reviews/{id}")
-    public Optional<Review> updatePendingReview(@PathVariable Long id, @RequestBody AdminReview adminReview) throws Exception{
+    public Optional<Review> updatePendingReview(@PathVariable Long id, @RequestBody AdminReview adminReview) throws Exception {
         return adminReviewService.updatePendingReview(id, adminReview);
     }
 
