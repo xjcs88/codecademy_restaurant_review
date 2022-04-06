@@ -1,12 +1,19 @@
 package com.example.restaurant.service;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
+
+import com.example.restaurant.RestaurantApplication;
 import com.example.restaurant.daos.User;
 import com.example.restaurant.repository.RestaurantRepository;
 import com.example.restaurant.repository.UserRepository;
 import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -19,28 +26,32 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.server.ResponseStatusException;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 
-//@SpringBootTest
-@AutoConfigureMockMvc
-//@RunWith(SpringRunner.class)
-@WebAppConfiguration
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
+//@AutoConfigureMockMvc
+@RunWith(SpringRunner.class)
+//@WebAppConfiguration
+//@ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 //    @Resource
 //    private UserService userService;
-    @Autowired
-    private MockMvc mockMvc;
+//    @Autowired
+//    private MockMvc mockMvc;
+
+    @InjectMocks
+    UserService userService;
+
     @Mock
-    private UserRepository userRepository;
-    @Mock
-    private RestaurantRepository restaurantRepository;
-    @Mock
-    private UserService userService;
+    UserRepository userRepository;
+
 
     @Test
     void getAllUsers() throws Exception {
@@ -51,12 +62,20 @@ class UserServiceTest {
         List<User> userList = new ArrayList<>();
         userList.add(newUser1);
         userList.add(newUser2);
-        userRepository.save(newUser1);
-        userRepository.save(newUser2);
-        Mockito.when(userService.getAllUsers()).thenReturn(userList);
-        List<User> resultList = new ArrayList<>();
-        userService.getAllUsers().forEach(u -> {resultList.add(u);});
-        Assert.assertArrayEquals(resultList.toArray(), userList.toArray());
+
+        when(userRepository.findAll()).thenReturn(userList);
+
+        var result = userService.getAllUsers();
+        var userIterator = result.iterator();
+
+        var resultUserList = new ArrayList<User>();
+
+        while (userIterator.hasNext()){
+            var user = userIterator.next();
+            resultUserList.add(user);
+        }
+
+        Assertions.assertTrue(resultUserList.size()==userList.size());
     }
 
     @Test
@@ -64,7 +83,15 @@ class UserServiceTest {
     }
 
     @Test
-    void updateUserByName() {
+    void updateUserByName_whenUserIsNotFound_thenReturnResponseStatusException() throws Exception {
+        Optional<User> empty = Optional.empty();
+        when(userRepository.findUserByName(anyString())).thenReturn(empty);
+
+        var user = new User();
+        user.setName("Cissy");
+
+        Assert.assertThrows(ResponseStatusException.class , () -> {userService.updateUserByName(user);});
+        Mockito.verify(userRepository, Mockito.times(0)).save(any());
     }
 
     @Test
@@ -78,4 +105,6 @@ class UserServiceTest {
     @Test
     void isExistedByName() {
     }
+
+
 }

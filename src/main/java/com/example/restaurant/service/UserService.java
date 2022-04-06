@@ -18,21 +18,25 @@ public class UserService {
     UserRepository userRepository;
 
 
+    public UserService(){
+
+    }
+
     public Iterable<User> getAllUsers() throws Exception{
         return userRepository.findAll();
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    public User addUser(User user) throws Exception{
+    public void addUser(User user) throws Exception{
         if(this.isExistedByName(user.getName())){
             throw new ResponseStatusException(HttpStatus.CONFLICT, "User name exists!");
         }
         userRepository.save(user);
-        return user;
+        //return user;
     }
 
     public Optional<User> updateUserByName(User user) throws Exception{
-        Optional<User> optionalUser = userRepository.findByName(user.getName());
+        Optional<User> optionalUser = userRepository.findUserByName(user.getName());
         if(optionalUser.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!");
         }
@@ -43,10 +47,6 @@ public class UserService {
 
         if(user.getCity() != null){
             userToUpdate.setName(user.getCity());
-        }
-
-        if(user.getId() != null){
-            userToUpdate.setId(user.getId());
         }
 
         if(user.getState() != null){
@@ -69,11 +69,13 @@ public class UserService {
             userToUpdate.setCarePeanut(user.getCarePeanut());
         }
 
+        userRepository.save(userToUpdate);
+
         return Optional.of(userToUpdate);
     }
 
     public Optional<User> getUserByName(String name) throws Exception{
-        Optional<User> optionalUser = userRepository.findByName(name);
+        Optional<User> optionalUser = userRepository.findUserByName(name);
         if(optionalUser.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!");
         }
@@ -91,7 +93,7 @@ public class UserService {
      */
 
     public Boolean isExistedByName(String name) throws Exception{
-        Optional<User> optionalUser = userRepository.findByName(name);
+        Optional<User> optionalUser = userRepository.findUserByName(name);
         return optionalUser.isPresent();
     }
 }

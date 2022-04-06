@@ -20,8 +20,8 @@ public class UserController {
     }
 
     @PostMapping()
-    public User addUser(@RequestBody User user) throws Exception{
-        return userService.addUser(user);
+    public void addUser(@RequestBody User user) throws Exception{
+         userService.addUser(user);
     }
 
     @PutMapping("/{name}")
