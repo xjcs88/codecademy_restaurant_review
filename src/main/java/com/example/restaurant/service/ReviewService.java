@@ -43,12 +43,6 @@ public class ReviewService {
         return reviews;
         }
 
-
-//    public Iterable<Review> getAllReviews() throws Exception{
-//        Iterable<Review> statusReviews = reviewRepository.findAll();
-//        return statusReviews;
-//    }
-
     public List<Review> getAllReviewsByRestaurantIdAndStatus(Long id, String status) throws Exception{
         Status findStatus = Status.PENDING;
         try{

@@ -45,10 +45,6 @@ public class UserService {
             userToUpdate.setName(user.getCity());
         }
 
-        if(user.getId() != null){
-            userToUpdate.setId(user.getId());
-        }
-
         if(user.getState() != null){
             userToUpdate.setState(user.getState());
         }
@@ -69,6 +65,7 @@ public class UserService {
             userToUpdate.setCarePeanut(user.getCarePeanut());
         }
 
+        userRepository.save(userToUpdate);
         return Optional.of(userToUpdate);
     }
 

@@ -105,6 +105,7 @@ public Optional<Restaurant> updateRestaurant(Long id, Restaurant restaurant) thr
         restaurantToUpdate.setDairy(restaurant.getDairy());
     }
 
+    restaurantRepository.save(restaurantToUpdate);
     return Optional.of(restaurantToUpdate);
 }
 }
