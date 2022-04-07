@@ -108,6 +108,7 @@ public class AdminReviewService {
                 restaurantToUpdate.setDairy(Double.valueOf(decimalFormat.format(dairyScore)));
             }
         }
-        return restaurantRepository.save(restaurantToUpdate);
+        restaurantRepository.save(restaurantToUpdate);
+        return restaurantToUpdate;
     }
 }

@@ -40,13 +40,11 @@ public class UserService {
         if(optionalUser.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!");
         }
+
         User userToUpdate = optionalUser.get();
-        if(user.getName() != null){
-            userToUpdate.setName(user.getName());
-        }
 
         if(user.getCity() != null){
-            userToUpdate.setName(user.getCity());
+            userToUpdate.setCity(user.getCity());
         }
 
         if(user.getState() != null){
