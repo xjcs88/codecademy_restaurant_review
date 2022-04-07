@@ -1,7 +1,5 @@
 package com.example.restaurant.service;
 
-import com.example.restaurant.daos.Restaurant;
-import com.example.restaurant.daos.Review;
 import com.example.restaurant.daos.User;
 import com.example.restaurant.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.Optional;
 
 @Component
@@ -19,7 +16,8 @@ public class UserService {
 
 
     public Iterable<User> getAllUsers() throws Exception{
-        return userRepository.findAll();
+        Iterable<User> users = userRepository.findAll();
+        return users;
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -37,12 +35,9 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!");
         }
         User userToUpdate = optionalUser.get();
-        if(user.getName() != null){
-            userToUpdate.setName(user.getName());
-        }
 
         if(user.getCity() != null){
-            userToUpdate.setName(user.getCity());
+            userToUpdate.setCity(user.getCity());
         }
 
         if(user.getState() != null){

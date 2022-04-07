@@ -34,10 +34,11 @@ public class AdminReviewService {
             catch (IllegalArgumentException exception){
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Status not found!");
             }
-            return reviewRepository.findAllByStatus(reviewStatus);
+            Iterable<Review> reviews = reviewRepository.findAllByStatus(reviewStatus);
+            return reviews;
         }
-
-        return reviewRepository.findAll();
+        Iterable<Review> reviews = reviewRepository.findAll();
+        return reviews;
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -108,6 +109,7 @@ public class AdminReviewService {
                 restaurantToUpdate.setDairy(Double.valueOf(decimalFormat.format(dairyScore)));
             }
         }
-        return restaurantRepository.save(restaurantToUpdate);
+        restaurantRepository.save(restaurantToUpdate);
+        return restaurantToUpdate;
     }
 }
