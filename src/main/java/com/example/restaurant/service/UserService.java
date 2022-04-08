@@ -1,7 +1,5 @@
 package com.example.restaurant.service;
 
-import com.example.restaurant.daos.Restaurant;
-import com.example.restaurant.daos.Review;
 import com.example.restaurant.daos.User;
 import com.example.restaurant.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +16,9 @@ public class UserService {
     UserRepository userRepository;
 
 
-    public UserService(){
-
-    }
-
     public Iterable<User> getAllUsers() throws Exception{
-        return userRepository.findAll();
+        Iterable<User> users = userRepository.findAll();
+        return users;
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -40,11 +35,17 @@ public class UserService {
         if(optionalUser.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!");
         }
-
         User userToUpdate = optionalUser.get();
+        if(user.getName() != null){
+            userToUpdate.setName(user.getName());
+        }
 
         if(user.getCity() != null){
-            userToUpdate.setCity(user.getCity());
+            userToUpdate.setName(user.getCity());
+        }
+
+        if(user.getId() != null){
+            userToUpdate.setId(user.getId());
         }
 
         if(user.getState() != null){
@@ -68,7 +69,6 @@ public class UserService {
         }
 
         userRepository.save(userToUpdate);
-
         return Optional.of(userToUpdate);
     }
 
@@ -80,15 +80,11 @@ public class UserService {
         return optionalUser;
     }
 
-    /* For test purpose
-
-    public Iterable<User> deleteAll() throws Exception{
+/*    public Iterable<User> deleteAll() throws Exception{
         Iterable<User> users = userRepository.findAll();
         userRepository.deleteAll();
         return users;
-    }
-
-     */
+    }*/
 
     public Boolean isExistedByName(String name) throws Exception{
         Optional<User> optionalUser = userRepository.findUserByName(name);

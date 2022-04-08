@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -42,12 +41,6 @@ public class ReviewService {
         Iterable<Review> reviews = reviewRepository.findAll();
         return reviews;
         }
-
-
-//    public Iterable<Review> getAllReviews() throws Exception{
-//        Iterable<Review> statusReviews = reviewRepository.findAll();
-//        return statusReviews;
-//    }
 
     public List<Review> getAllReviewsByRestaurantIdAndStatus(Long id, String status) throws Exception{
         Status findStatus = Status.PENDING;
