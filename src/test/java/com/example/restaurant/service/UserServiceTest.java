@@ -131,16 +131,28 @@ class UserServiceTest {
     }
 
     @Test
-    void getUserByName() {
+    void getUserByName_WhenNoUserFound() throws Exception{
+        when(userRepository.findUserByName(anyString())).thenReturn(Optional.empty());
+
+        Assert.assertThrows(ResponseStatusException.class, () -> userService.getUserByName(anyString()));
     }
 
     @Test
-    void deleteAll() {
+    void getUserByName_WhenUserFound() throws Exception{
+        User user = generateUser();
+
+        when(userRepository.findUserByName(anyString())).thenReturn(Optional.of(user));
+
+        Assert.assertTrue(userService.getUserByName(anyString()).equals(Optional.of(user)));
     }
 
     @Test
-    void isExistedByName() {
+    void isExistedByName_WhenUserFound() throws Exception{
+        User user = generateUser();
 
+        when(userRepository.findUserByName(anyString())).thenReturn(Optional.of(user));
+
+        Assert.assertTrue(userService.isExistedByName(anyString()) == Optional.of(user).isPresent());
     }
 
     //helper method to generate a user with all fields having non-null values.
