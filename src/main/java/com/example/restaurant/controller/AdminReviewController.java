@@ -5,7 +5,6 @@ import com.example.restaurant.daos.Review;
 import com.example.restaurant.service.AdminReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Optional;
 
 @RestController
@@ -17,7 +16,7 @@ public class AdminReviewController {
 
     @GetMapping("/reviews")
     public Iterable<Review> getAllReviewsByStatus(@RequestParam(required = false) String status) throws Exception {
-        return adminReviewService.getAllReviewsByStatus(status);
+        return adminReviewService.getAllReviewsByStatus(status.toUpperCase());
     }
 
     @PutMapping("/reviews/{id}")
