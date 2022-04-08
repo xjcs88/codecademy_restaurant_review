@@ -73,7 +73,7 @@ public class UserService {
     }
 
     public Optional<User> getUserByName(String name) throws Exception{
-        Optional<User> optionalUser = userRepository.findByName(name);
+        Optional<User> optionalUser = userRepository.findUserByName(name);
         if(optionalUser.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!");
         }
@@ -87,7 +87,7 @@ public class UserService {
     }
 
     public Boolean isExistedByName(String name) throws Exception{
-        Optional<User> optionalUser = userRepository.findByName(name);
+        Optional<User> optionalUser = userRepository.findUserByName(name);
         return optionalUser.isPresent();
     }
 }
