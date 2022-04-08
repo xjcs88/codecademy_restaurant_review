@@ -34,4 +34,9 @@ public class User {
 
     @Column(name = "DAIRY")
     private Boolean careDairy;
+
+
+    public String toString(){
+        return "User: "+ "name[" + name + "] state[" + state + "] city[" + city + "] zipCode[" + zipCode + "] carePeanut[" + carePeanut + "] careEgg[" + careEgg + "] careDairy["+ careDairy + "]";
+    }
 }

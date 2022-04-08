@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.server.ResponseStatusException;
+
 import java.util.Optional;
 
 @Component
@@ -21,23 +22,30 @@ public class UserService {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    public User addUser(User user) throws Exception{
+    public void addUser(User user) throws Exception{
         if(this.isExistedByName(user.getName())){
             throw new ResponseStatusException(HttpStatus.CONFLICT, "User name exists!");
         }
         userRepository.save(user);
-        return user;
+        //return user;
     }
 
     public Optional<User> updateUserByName(User user) throws Exception{
-        Optional<User> optionalUser = userRepository.findByName(user.getName());
+        Optional<User> optionalUser = userRepository.findUserByName(user.getName());
         if(optionalUser.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!");
         }
         User userToUpdate = optionalUser.get();
+        if(user.getName() != null){
+            userToUpdate.setName(user.getName());
+        }
 
         if(user.getCity() != null){
-            userToUpdate.setCity(user.getCity());
+            userToUpdate.setName(user.getCity());
+        }
+
+        if(user.getId() != null){
+            userToUpdate.setId(user.getId());
         }
 
         if(user.getState() != null){
